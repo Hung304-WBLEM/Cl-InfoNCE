@@ -54,7 +54,7 @@ def parse_option():
         if opt.used_attributes == [-1]:
             opt.used_attributes = [i for i in range(opt.gran_lvl)]
         else:
-            assert len(opt.used_attributes) == opt.gran_lvl
+            assert len(opt.used_attributes) == int(opt.gran_lvl)
 
     parser_processing(opt, default_save_folder=True)
 

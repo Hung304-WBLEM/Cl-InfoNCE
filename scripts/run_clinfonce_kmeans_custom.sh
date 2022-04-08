@@ -5,16 +5,16 @@
 #     define variables     #
 ###################################
 # train stuff
-epoch=200;
+epoch=5;
 save_freq=50;
 learning_rate=0.03;
 batch_size=8;
 
 
 # data stuff
-dataset="imagenet100";
+dataset="CUB";
 gran_lvl=-1;
-instruction="kmeans";
+instruction="rank_H";
 meta_file_train="meta_data_train.csv";
 img_size=224;
 
@@ -37,8 +37,8 @@ trial=0;
 customized_name=""
 
 # data folder
-data_folder="../data_processing/imagenet100"
-data_root_name="imagenet_unzip"
+data_folder="../data_processing/CUB"
+data_root_name="images"
 save_path="../train_related"
 
 # kmeans clustering

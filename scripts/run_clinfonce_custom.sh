@@ -5,27 +5,27 @@
 #     define variables     #
 ###################################
 # train stuff
-epoch=200;
-save_freq=50;
-learning_rate=0.03;
-batch_size=8;
+epoch=300;
+save_freq=10;
+learning_rate=0.01;
+batch_size=128;
 
 
 # data stuff
-dataset="imagenet100";
-gran_lvl=-1;
-instruction="kmeans";
-meta_file_train="meta_data_train.csv";
+dataset="CUB";
+gran_lvl=$1;
+instruction="rank_H";
+meta_file_train="meta_data_bin_train.csv";
 img_size=224;
 
 # optimization
-temp=0.2;
-method="SupCon";
+temp=0.1;
+method="WeakSupCon";
 lr_scheduling="warmup";
 # resume
-if (! test -z "$2")
+if (! test -z "$3")
 then
-resume_model_path="$2/ckpt_epoch_$3.pth";
+resume_model_path="$3/ckpt_epoch_$4.pth";
 else
 resume_model_path="";
 fi
@@ -37,22 +37,17 @@ trial=0;
 customized_name=""
 
 # data folder
-data_folder="../data_processing/imagenet100"
-data_root_name="imagenet_unzip"
+data_folder="../data_processing/CUB"
+data_root_name="images"
 save_path="../train_related"
-
-# kmeans clustering
-warmup_epoch=0;
-perform_cluster_epoch=1;
-num_cluster=2500;
-
 
 ###################################
 #         define command          #
 ###################################
 
 # run supcon
-run_command="CUDA_VISIBLE_DEVICES=$1 python ../clinfonce/main_clinfonce_kmeans.py --dataset $dataset \
+run_command="CUDA_VISIBLE_DEVICES=$2 python ../clinfonce/main_clinfonce.py --dataset $dataset \
+--used_attributes $(seq -s' ' 0 311) \
 --method $method \
 --gran_lvl $gran_lvl \
 --instruction $instruction \
@@ -71,9 +66,6 @@ run_command="CUDA_VISIBLE_DEVICES=$1 python ../clinfonce/main_clinfonce_kmeans.p
 --data_folder $data_folder \
 --data_root_name $data_root_name \
 --save_path $save_path \
---warmup_epoch $warmup_epoch \
---perform_cluster_epoch $perform_cluster_epoch \
---num_cluster $num_cluster \
 "
 
 # add resume if specified
